@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class Request {
 
-    private static Long nextId = 1L;
+    private static volatile Long nextId = 1L;
     /**
      * unique id per request
      */

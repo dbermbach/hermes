@@ -3,17 +3,18 @@
  */
 package de.tub.ise.test;
 
+import java.io.IOException;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import de.tub.ise.hermes.AsyncCallbackRecipient;
 import de.tub.ise.hermes.Receiver;
 import de.tub.ise.hermes.Request;
 import de.tub.ise.hermes.RequestHandlerRegistry;
 import de.tub.ise.hermes.Response;
 import de.tub.ise.hermes.Sender;
-import de.tub.ise.hermes.callbacks.EchoAsyncCallback;
 import de.tub.ise.hermes.handlers.EchoRequestHandler;
-import org.junit.Assert;
-import org.junit.Test;
-
-import java.io.IOException;
 
 public class EchoClientServerTest {
 
@@ -51,5 +52,35 @@ public class EchoClientServerTest {
         r.terminate();
     }
 
+    private class EchoAsyncCallback implements AsyncCallbackRecipient {
+
+    	public boolean isEchoSuccessful() {
+            return echoSuccessful;
+        }
+
+        public void setEchoSuccessful(boolean echoSuccessful) {
+            this.echoSuccessful = echoSuccessful;
+        }
+
+        private boolean echoSuccessful;
+
+        public Response getResponse() {
+            return response;
+        }
+
+        public void setResponse(Response response) {
+            this.response = response;
+        }
+
+        private Response response;
+
+        @Override
+        public void callback(Response resp) {
+            setResponse(resp);
+            setEchoSuccessful(resp.responseCode());
+        }
+    }
 
 }
+
+
