@@ -5,6 +5,7 @@ package de.tub.ise.hermes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -16,134 +17,120 @@ import java.util.List;
  */
 public class Response {
 
-    /**
-     * payload
-     */
-    private List<Serializable> items = new ArrayList<Serializable>();
+	/**
+	 * payload
+	 */
+	private List<Serializable> items = new ArrayList<Serializable>();
 
-    /**
-     * optional response message, may be empty string but not null
-     */
-    private String responseMessage;
+	/**
+	 * optional response message, may be empty string but not null
+	 */
+	private String responseMessage;
 
-    /**
-     * true if successful, false otherwise (use responseMessage to explain in
-     * the latter case)
-     */
-    private boolean responseCode;
+	/**
+	 * true if successful, false otherwise (use responseMessage to explain in
+	 * the latter case)
+	 */
+	private boolean responseCode;
 
-    private String requestId;
+	private String requestId;
 
-    /**
-     * @param items
-     * @param responseMessage
-     * @param responseCode
-     */
-    public Response(List<Serializable> items, String responseMessage,
-                    boolean responseCode, Request originalReq) {
-        super();
-        this.items.addAll(items);
-        this.responseMessage = responseMessage;
-        this.responseCode = responseCode;
-        requestId = originalReq == null ? "N/A" : originalReq.getRequestId();
-    }
+	/**
+	 * 
+	 * @param responseMessage
+	 *            human-readable response message
+	 * @param responseCode
+	 *            true if request was successful, if false use responseMessage
+	 *            to explain
+	 * @param originalReq
+	 *            the original request
+	 * @param items
+	 *            the payload
+	 */
+	public Response(String responseMessage, boolean responseCode,
+			Request originalReq, List<Serializable> items) {
+		super();
+		this.items.addAll(items);
+		this.responseMessage = responseMessage;
+		this.responseCode = responseCode;
+		requestId = originalReq == null ? "N/A" : originalReq.getRequestId();
+	}
 
-    /**
-     * @param items
-     * @param responseMessage
-     * @param responseCode
-     */
-    public Response(Serializable item, String responseMessage,
-                    boolean responseCode, Request originalReq) {
-        super();
-        items.add(item);
-        this.responseMessage = responseMessage;
-        this.responseCode = responseCode;
-        requestId = originalReq == null ? "N/A" : originalReq.getRequestId();
-    }
+	/**
+	 * @param responseMessage
+	 *            human-readable response message
+	 * @param responseCode
+	 *            true if request was successful, if false use responseMessage
+	 *            to explain
+	 * @param originalReq
+	 *            the original request
+	 * @param items
+	 *            the payload
+	 */
+	public Response(String responseMessage, boolean responseCode,
+			Request originalReq, Serializable... items) {
+		super();
+		this.items.addAll(Arrays.asList(items));
+		this.responseMessage = responseMessage;
+		this.responseCode = responseCode;
+		requestId = originalReq == null ? "N/A" : originalReq.getRequestId();
+	}
 
-    /**
-     * @param responseMessage
-     * @param responseCode
-     */
-    public Response(String responseMessage, boolean responseCode,
-                    Request originalReq) {
-        super();
-        this.responseMessage = responseMessage;
-        this.responseCode = responseCode;
-        requestId = originalReq == null ? "N/A" : originalReq.getRequestId();
-    }
+	/**
+	 * @return the responseMessage
+	 */
+	public String getResponseMessage() {
+		return this.responseMessage;
+	}
 
-    /**
-     * appends the specified item to the message body
-     *
-     * @param item
-     */
-    public void addItem(Serializable item) {
-        items.add(item);
-    }
+	/**
+	 * @return the items
+	 */
+	public List<Serializable> getItems() {
+		return this.items;
+	}
 
-    /**
-     * @return the responseMessage
-     */
-    public String getResponseMessage() {
-        return this.responseMessage;
-    }
+	/**
+	 * @return the responseCode
+	 */
+	public boolean responseCode() {
+		return this.responseCode;
+	}
 
-    /**
-     * @param responseMessage the responseMessage to set
-     */
-    public void setResponseMessage(String responseMessage) {
-        this.responseMessage = responseMessage;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		String s = " Response message\nResponse code: "
+				+ (responseCode ? "Success" : "Failure") + "\nText response: "
+				+ responseMessage + "\nBody:";
+		int counter = 1;
+		if (items.isEmpty()) {
+			s += "***No items in Message body***";
+		} else {
+			for (Serializable ser : items)
+				s += "\n\tItem " + counter++ + ": " + ser;
+		}
+		return s.trim();
+	}
 
-    /**
-     * @return the items
-     */
-    public List<Serializable> getItems() {
-        return this.items;
-    }
+	/**
+	 * @return the requestId
+	 */
+	public String getRequestId() {
+		return this.requestId;
+	}
 
-    /**
-     * @return the responseCode
-     */
-    public boolean responseCode() {
-        return this.responseCode;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        String s = " Response message\nResponse code: "
-                + (responseCode ? "Success" : "Failure") + "\nText response: "
-                + responseMessage + "\nBody:";
-        int counter = 1;
-        if (items.isEmpty()) {
-            s += "***No items in Message body***";
-        } else {
-            for (Serializable ser : items)
-                s += "\n\tItem " + counter++ + ": " + ser;
-        }
-        return s.trim();
-    }
-
-    /**
-     * @return the requestId
-     */
-    public String getRequestId() {
-        return this.requestId;
-    }
-
-    /**
-     * @param requestId the requestId to set
-     */
-    void setRequestId(String requestId) {
-        if (this.requestId.equals("N/A") || requestId != null)
-            this.requestId = requestId;
-    }
+	/**
+	 * @param requestId
+	 *            the requestId to set
+	 */
+	void setRequestId(String requestId) {
+		if (this.requestId.equals("N/A") || requestId != null)
+			this.requestId = requestId;
+	}
 
 }

@@ -25,8 +25,8 @@ public class EchoRequestHandler implements IRequestHandler {
      */
     @Override
     public Response handleRequest(Request req) {
-        return new Response(req.getItems(), "Echo okay for target: "
-                + req.getTarget(), true, req);
+        return new Response("Echo okay for target: "
+                + req.getTarget(), true, req,req.getItems());
 
     }
 
@@ -40,9 +40,5 @@ public class EchoRequestHandler implements IRequestHandler {
         return true;
     }
 
-    @Override
-    public boolean hasPriority() {
-        return false;
-    }
 
 }

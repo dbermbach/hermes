@@ -10,27 +10,21 @@ package de.tub.ise.hermes;
  */
 public interface IRequestHandler {
 
-    /**
-     * receives a request and returns a response. response may never be null
-     * (but may have zero payload) unless method requiresReponse() returns false
-     *
-     * @param req is guaranteed to be != null
-     * @return
-     */
-    public Response handleRequest(Request req);
+	/**
+	 * receives a request and returns a response. response may never be null
+	 * (but may have zero payload) unless method requiresReponse() returns false
+	 *
+	 * @param req
+	 *            is guaranteed to be != null
+	 * @return
+	 */
+	public Response handleRequest(Request req);
 
-    /**
-     * @return if the socket connection needs to wait for completion in the
-     * handleRequest() method. if false the receiver will respond right
-     * away with an "ok".
-     */
-    public boolean requiresResponse();
-
-    /**
-     * @return if messages for this handler shall get a priority status.
-     * Requests with priority status will be processed before all
-     * non-priority requests.
-     */
-    public boolean hasPriority();
+	/**
+	 * @return if the socket connection needs to wait for completion in the
+	 *         handleRequest() method. if false the receiver will respond right
+	 *         away with an "ok".
+	 */
+	public boolean requiresResponse();
 
 }

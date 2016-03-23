@@ -8,7 +8,8 @@ import de.tub.ise.hermes.Sender;
 import de.tub.ise.hermes.handlers.EchoRequestHandler;
 
 /**
- * starts a clientside test using {@link EchoRequestHandler}
+ * Stand-alone class for echo testing using {@link EchoRequestHandler}. This
+ * class should be run on a client machine.
  *
  * @author David Bermbach
  *         <p>

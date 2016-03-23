@@ -188,3 +188,4 @@ dist/
 nbdist/
 nbactions.xml
 .nb-gradle/
+/target/

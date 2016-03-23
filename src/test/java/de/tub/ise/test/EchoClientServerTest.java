@@ -21,23 +21,24 @@ public class EchoClientServerTest {
     public void echoSyncClientTest() throws IOException {
         RequestHandlerRegistry.getInstance().registerHandler("echo",
                 new EchoRequestHandler());
-        Receiver r = new Receiver(9090, 1, 1);
+        Receiver r = new Receiver(9090);
         r.start();
 
         Sender s = new Sender("localhost", 9090);
         Request req = new Request("echo", "TestSender");
         Response response = s.sendMessage(req, 1000);
         Assert.assertTrue(response.responseCode());
+        r.terminate();
     }
 
     @Test
     public void echoAsyncClientTest() throws IOException, InterruptedException {
         RequestHandlerRegistry.getInstance().registerHandler("echo",
                 new EchoRequestHandler());
-        Receiver r = new Receiver(9090, 1, 1);
+        Receiver r = new Receiver(9091);
         r.start();
 
-        Sender s = new Sender("localhost", 9090);
+        Sender s = new Sender("localhost", 9091);
         Request req = new Request("echo", "TestSender");
         EchoAsyncCallback echoAsyncCallback = new EchoAsyncCallback();
         boolean received = s.sendMessageAsync(req, echoAsyncCallback);
@@ -47,6 +48,7 @@ public class EchoClientServerTest {
             if (echoAsyncCallback.getResponse() != null) break;
         }
         Assert.assertTrue(echoAsyncCallback.isEchoSuccessful());
+        r.terminate();
     }
 
 
