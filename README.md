@@ -1,5 +1,5 @@
 # hermes
-hermes is a very simple middleware that focuses on ease-of-use instead of performance, scalability, etc. Originally developed for use in teaching of Cloud Computing courses at Karlsruhe Institute of Technology, we now use it for courses at TU Berlin. The middleware uses a simple event-driven server implementation model and corresponding clients.
+hermes is a very simple communication middleware that focuses on ease-of-use instead of performance, scalability, etc. Originally developed for use in teaching of Cloud Computing courses at Karlsruhe Institute of Technology, we now use it for courses at TU Berlin. The middleware uses a simple event-driven server implementation model and corresponding clients.
 
 ### Getting started
 Once you have hermes on the buildpath of your Java project, writing a server and client is straightforward:
